@@ -45,18 +45,18 @@ const DashboardReducer = (state = initalState,action) => {
             return {...state , loadingExpense:false ,expenseCount: 0,loadingExpenseError:true}
 
         case dTypes.FETCH_EXPENSES:
-            return {...state , loadingUser:true ,expenses: [] ,loadingExpensesError:false }
+            return {...state , loadingExpenses:true ,expenses: [] ,loadingExpensesError:false }
         case dTypes.SET_EXPENSES_COUNT:
-            return {...state , loadingUser:false ,expenses: action.count,loadingExpensesError:false}
+            return {...state , loadingExpenses:false ,expenses: action.count,loadingExpensesError:false}
         case dTypes.SET_EXPENSES_FAIL:
-            return {...state , loadingUser:false ,expenses: [],loadingExpensesError:true}
+            return {...state , loadingExpenses:false ,expenses: [],loadingExpensesError:true}
 
         case dTypes.FETCH_EXPENSES_DEPOSITS:
-            return {...state , loadingUser:true ,expenseDeposit: [] ,loadingExpenseDepositError:false }
+            return {...state , loadingExpenseDeposit:true ,expenseDeposit: [] ,loadingExpenseDepositError:false }
         case dTypes.SET_EXPENSES_DEPSOITS_COUNT:
-            return {...state , loadingUser:false ,expenseDeposit: action.count,loadingExpenseDepositError:false}
+            return {...state , loadingExpenseDeposit:false ,expenseDeposit: action.count,loadingExpenseDepositError:false}
         case dTypes.SET_EXPENSES_DEPSOITS_FAIL:
-            return {...state , loadingUser:false ,expenseDeposit: [],loadingExpenseDepositError:true}
+            return {...state , loadingExpenseDeposit:false ,expenseDeposit: [],loadingExpenseDepositError:true}
 
 
         default:

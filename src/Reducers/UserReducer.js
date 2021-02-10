@@ -28,11 +28,6 @@ const UserReducer = (state = initialState , action) => {
         case 'UPDATE_USER':
             return state;
         case 'ADD_USER':
-            // console.log("in succes")
-            // return {
-            //     ...state, users: [...state.users,action.user]
-            // }
-
             return state;
         default:
             return state;

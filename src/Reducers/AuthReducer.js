@@ -17,7 +17,7 @@ const AuthReducer = (state = initialState, action) => {
             }
         case AuthActions.USER_AUTH_FAIL:
             return {
-                ...state, verified : false, user : '', loading : false, msg : action.msg
+                ...state, verified : false, user : [], loading : false, msg : action.msg
             }
         default:
 
