@@ -85,7 +85,7 @@ export const listUsers = () => {
 
     return (disptach) => {
         disptach(fetchUser())
-        axios.post(url + 'api/get/users')
+        return axios.post(url + 'api/get/users')
             .then(response => {
                 // console.log(response)
                 if (response.data.isValid) {
@@ -103,10 +103,10 @@ export const listUsers = () => {
 }
 export const addUser = (data, history) => {
 
-    return (dispatch) => {
+    return async (dispatch) => {
         // console.log("here")
         dispatch(addUserRequest())
-        axios.post(url + 'api/add/user', qs.stringify(data))
+        return axios.post(url + 'api/add/user', qs.stringify(data))
             .then(response => {
                 if (response.data.isValid) {
                     dispatch(addUserSuccess(response.data.user))
@@ -131,7 +131,7 @@ export const updateUser = (userId , data, history) => {
     return (dispatch) => {
         dispatch(updateUserRequest())
         data['user_id']=userId;
-        axios.post(url + 'api/update/user', qs.stringify(data))
+        return axios.post(url + 'api/update/user', qs.stringify(data))
             .then(response => {
                 if (response.data.isValid) {
                     dispatch(updateUserSuccess(response.data.user))
@@ -156,7 +156,7 @@ export const deleteUser = (userId) => {
     return (dispatch) => {
         dispatch(deleteUserRequest())
         const data ={user_id:userId,"status":0}
-        axios.post(url + 'api/update/user', qs.stringify(data))
+        return axios.post(url + 'api/update/user', qs.stringify(data))
             .then(response => {
                 if (response.data.isValid) {
                     dispatch(deleteUserSuccess(userId))
