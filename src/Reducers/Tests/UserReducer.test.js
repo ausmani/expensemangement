@@ -23,6 +23,7 @@ describe('Auth Reducer' , () => {
             type: UserActions.USER_FETCH_SUCCESS,
             users
         })
+        expect(newState).toEqual({loading:false,users,error:false})
     });
     it('should Delete User', function () {
         const users = [{"id":1,"first_name":"awais","last_name":"usmani","email":'amusmani@gmail.com'},{"id":2,"first_name":"Umer","last_name":"Usmani","email":'umer@gmail.com'}];
