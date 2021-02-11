@@ -82,7 +82,7 @@ describe("Test Users Actions Functionality", () => {
         ];
         return store.dispatch(UserActions.listUsers()).then(() => {
             const actualActions = store.getActions();
-            expect(actualActions).toEqual(expectedActions)
+            expect(expectedActions).toEqual(actualActions)
         })
     });
     it('should Add the User Correctly', () => {
@@ -110,7 +110,7 @@ describe("Test Users Actions Functionality", () => {
         ];
         return store.dispatch(UserActions.addUser(data, history)).then(() => {
             const actualActions = store.getActions();
-            expect(actualActions).toEqual(expectedActions)
+            expect(expectedActions).toEqual(actualActions)
         })
 
     })

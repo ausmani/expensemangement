@@ -100,7 +100,7 @@ describe("Test Deposits Actions Functionality", () => {
         ];
         return store.dispatch(DepositActions.listDeposits()).then(() => {
             const actualActions = store.getActions();
-            expect(actualActions).toEqual(expectedActions)
+            expect(expectedActions).toEqual(actualActions)
         })
     });
 
@@ -129,7 +129,7 @@ describe("Test Deposits Actions Functionality", () => {
         ];
         return store.dispatch(DepositActions.addDeposit(data, history)).then(() => {
             const actualActions = store.getActions();
-            expect(actualActions).toEqual(expectedActions)
+            expect(expectedActions).toEqual(actualActions)
         })
 
     })

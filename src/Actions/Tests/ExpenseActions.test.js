@@ -79,7 +79,7 @@ describe("Test Expenses Actions Functionality", () => {
         ];
         return store.dispatch(ExpenseActions.listExpenses()).then(() => {
             const actualActions = store.getActions();
-            expect(actualActions).toEqual(expectedActions)
+            expect(expectedActions).toEqual(actualActions)
         })
     });
 
@@ -107,7 +107,7 @@ describe("Test Expenses Actions Functionality", () => {
         ];
         return store.dispatch(ExpenseActions.addExpense(data, history)).then(() => {
             const actualActions = store.getActions();
-            expect(actualActions).toEqual(expectedActions)
+            expect(expectedActions).toEqual(actualActions)
         })
 
     })

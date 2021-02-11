@@ -25,7 +25,7 @@ describe('Test Auth Actions', function () {
         store = mockStore(initialState)
     });
     afterEach(() => {
-        moxios.install();
+        moxios.uninstall();
     })
     it('should Test User is Authenticated', function () {
 
@@ -46,6 +46,33 @@ describe('Test Auth Actions', function () {
             {
                 type: AuthActionTypes.USER_AUTH_SUCCESS,
                 user
+            }
+        ]
+        return store.dispatch(AuthActions.authenticateUSer())
+            .then(() => {
+                const actualActions = store.getActions();
+                expect(expectedActions).toEqual(actualActions)
+            })
+    });
+    it('should Test User Authentication Failed', function () {
+
+        moxios.wait(function () {
+            let request = moxios.requests.mostRecent();
+            request.respondWith({
+                status: 200,
+                response: {
+                    "isValid": false,
+                    msg:"User Authentication Failed"
+                }
+            })
+        });
+        const expectedActions = [
+            {
+                type: AuthActionTypes.USER_AUTH_REQUEST
+            },
+            {
+                type: AuthActionTypes.USER_AUTH_FAIL,
+                msg:"User Authentication Failed"
             }
         ]
         return store.dispatch(AuthActions.authenticateUSer())

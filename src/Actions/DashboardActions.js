@@ -89,7 +89,7 @@ export const setExpenseDepositFail = () =>{
 export const getUserCount = () => {
     return (disptach)=>{
         disptach(fetchUserCount())
-        axios.post(url+'api/count/user')
+        return axios.post(url+'api/count/user')
             .then(response=>{
                 // console.log(response)
                 if(response.data.isValid){
@@ -105,7 +105,7 @@ export const getUserCount = () => {
 export const getDepositCount = () => {
     return (disptach)=>{
         disptach(fetchDepositCount())
-        axios.post(url+'api/count/deposit')
+        return axios.post(url+'api/count/deposit')
             .then(response=>{
                 // console.log(response)
                 if(response.data.isValid){
@@ -121,7 +121,7 @@ export const getDepositCount = () => {
 export const getExpenseCount = () => {
     return (disptach)=>{
         disptach(fetchExpenseCount())
-        axios.post(url+'api/count/expense')
+        return axios.post(url+'api/count/expense')
             .then(response=>{
                 // console.log(response)
                 if(response.data.isValid){
@@ -137,7 +137,7 @@ export const getExpenseCount = () => {
 export const getExpensesCount = () => {
     return (disptach)=>{
         disptach(fetchExpensesCount())
-        axios.post(url+'api/data/expense/sum')
+        return axios.post(url+'api/data/expense/sum')
             .then(response=>{
                 // console.log(response)
                 if(response.data.isValid){
@@ -154,7 +154,7 @@ export const getExpensesCount = () => {
 export const getExpenseDepositCount = () => {
     return (disptach)=>{
         disptach(fetchExpenseDepositCount())
-        axios.post(url+'api/expense/deposit')
+        return axios.post(url+'api/expense/deposit')
             .then(response=>{
                 // console.log(response)
                 if(response.data.isValid){
