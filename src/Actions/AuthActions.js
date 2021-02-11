@@ -40,7 +40,7 @@ export const authenticateUSer = (email, password) => {
         dispatch(authRequest());
         const params = {email, password}
         const qs = require('qs');
-        axios.post(url + 'api/auth/user', qs.stringify(params))
+        return axios.post(url + 'api/auth/user', qs.stringify(params))
             .then(response => {
                 // console.log("User Authenticated")
                 // console.log(response)

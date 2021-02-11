@@ -85,7 +85,7 @@ export const listDeposits = () => {
 
     return (disptach) => {
         disptach(fetchDeposit())
-        axios.post(url + 'api/get/deposits')
+        return axios.post(url + 'api/get/deposits')
             .then(response => {
                 // console.log(response)
                 if (response.data.isValid) {
@@ -101,14 +101,17 @@ export const listDeposits = () => {
     }
 
 }
-export const addDeposit = (data, history) => {
+export const addDeposit = (data = [], history) => {
 
     return (dispatch) => {
         // console.log("here")
-        data['date'] = data['date'].toDateString()
+        if(data['date']!==undefined){
+            data['date'] = new Date(data['date']).toDateString()
+        }
+
 
         dispatch(addDepositRequest())
-        axios.post(url + 'api/add/deposit', qs.stringify(data))
+        return axios.post(url + 'api/add/deposit', qs.stringify(data))
             .then(response => {
                 if (response.data.isValid) {
                     dispatch(addDepositSuccess(response.data.deposit))
@@ -128,14 +131,16 @@ export const addDeposit = (data, history) => {
 
     }
 }
-export const updateDeposit = (depositId , data, history) => {
+export const updateDeposit = (depositId , data  = [], history) => {
 
     return (dispatch) => {
         dispatch(updateDepositRequest())
         data['deposit_id']=depositId;
-        data['date'] = data['date'].toDateString();
+        if(data['date']!==undefined){
+            data['date'] = new Date(data['date']).toDateString()
+        }
         // console.log(data)
-        axios.post(url + 'api/update/deposit', qs.stringify(data))
+        return axios.post(url + 'api/update/deposit', qs.stringify(data))
             .then(response => {
                 if (response.data.isValid) {
                     dispatch(updateDepositSuccess(response.data.deposit))
@@ -160,7 +165,7 @@ export const deleteDeposit = (depositId) => {
     return (dispatch) => {
         dispatch(deleteDepositRequest())
         const data ={deposit_id:depositId}
-        axios.post(url + 'api/delete/deposit', qs.stringify(data))
+        return axios.post(url + 'api/delete/deposit', qs.stringify(data))
             .then(response => {
                 // console.log(response)
                 if (response.data.isValid) {

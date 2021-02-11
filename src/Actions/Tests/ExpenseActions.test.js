@@ -1,24 +1,21 @@
 import thunk from 'redux-thunk';
 import {useHistory} from "react-router-dom";
-import * as UserActions from './UserActions';
-import "../setupTests";
+import * as ExpenseActions from '../ExpenseActions';
+import "../../setupTests";
 import moxios from "moxios";
 import configureMockStore from "redux-mock-store";
-import * as userActionTypes from '../Actions/ActionTypes/UserTypes';
+import * as expenseActionTypes from '../ActionTypes/ExpenseTypes';
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
 
-const initialState = {loading: false, users: [], error: false};
+const initialState = {loading: false, expenses: [], error: false};
 
-const users = [{"id": 1, "first_name": "Awais", "last_name": "Usmani", "email": 'amusmani@gmail.com'}];
+const expenses = [{"id":"17","expense":"Lunch Mc","amount":"299","date":"08 Feb 2021","participants":"Awais Munawar Usmani,Umer Usmani,Waleed usmani,Muhammad Wali Usmani,Taimoor Nadeem,HNwLT CSpjY,EFOPl uwhIP,DGOyC Zdcqo,mLvix moKEg","participants_id":"1,2,3,4,5,19,20,21,22"},{"id":"16","expense":"Daal + Dahi","amount":"160","date":"02 Feb 2021","participants":"Awais Munawar Usmani,Umer Usmani,Waleed usmani,Muhammad Wali Usmani,Taimoor Nadeem","participants_id":"1,2,3,4,5"},{"id":"13","expense":"Lunch","amount":"250","date":"02 Feb 2021","participants":"Awais Munawar Usmani,Umer Usmani,Waleed usmani,Muhammad Wali Usmani,Taimoor Nadeem","participants_id":"1,2,3,4,5"}];
 
 
-jest.setTimeout(15000)
-
-describe("Test Users Actions Functionality", () => {
-    const user = {"id": 1, "first_name": "Awais", "last_name": "Usmani", "email": 'amusmani@gmail.com'};
-    const updateData = {user_id:1};
+describe("Test Expenses Actions Functionality", () => {
+    const expense = {"expense":"Lunch Mc","amount":"299","date":"08 Feb 2021","participants":"1,2,3,4,5"};
     let store;
 
     beforeEach(() => {
@@ -29,7 +26,7 @@ describe("Test Users Actions Functionality", () => {
         moxios.uninstall();
     });
 
-    it('should Load All the Users Correctly', () => {
+    it('should Load All the Expenses Correctly', () => {
 
         moxios.wait(function () {
 
@@ -39,7 +36,7 @@ describe("Test Users Actions Functionality", () => {
                 response:
                     {
                         isValid: true,
-                        users: [{id: 1, first_name: "Awais", "last_name": "Usmani", "email": 'amusmani@gmail.com'}]
+                        expenses
                     }
 
             });
@@ -48,22 +45,22 @@ describe("Test Users Actions Functionality", () => {
         const expectedActions = [
 
             {
-                type: userActionTypes.USER_FETCH_REQUEST
+                type: expenseActionTypes.EXPENSE_FETCH_REQUEST
             },
             {
-                type: userActionTypes.USER_FETCH_SUCCESS,
-                users
+                type: expenseActionTypes.EXPENSE_FETCH_SUCCESS,
+                expenses
             }
         ];
 
-        return store.dispatch(UserActions.listUsers()).then(() => {
+        return store.dispatch(ExpenseActions.listExpenses()).then(() => {
             const actualAction = store.getActions();
             expect(actualAction).toEqual(expectedActions);
 
         })
 
     });
-    it('should Return when not able to get users', () => {
+    it('should Return when not able to get expenses', () => {
         moxios.wait(function () {
             let request = moxios.requests.mostRecent();
             request.respondWith({
@@ -74,68 +71,71 @@ describe("Test Users Actions Functionality", () => {
 
         const expectedActions = [
             {
-                type: userActionTypes.USER_FETCH_REQUEST
+                type: expenseActionTypes.EXPENSE_FETCH_REQUEST
             },
             {
-                type: userActionTypes.USER_FETCH_FAIL
+                type: expenseActionTypes.EXPENSE_FETCH_FAIL
             },
         ];
-        return store.dispatch(UserActions.listUsers()).then(() => {
+        return store.dispatch(ExpenseActions.listExpenses()).then(() => {
             const actualActions = store.getActions();
             expect(actualActions).toEqual(expectedActions)
         })
     });
-    it('should Add the User Correctly', () => {
+
+    it('should Add the Expense Correctly', () => {
         const history = '';
-        const data = {first_name: "Awais", "last_name": "Usmani", email: "amusmani@gmail.com"}
+        const data = {"amount": "194", "date": "08 Feb 2021", "user_id": 34}
         moxios.wait(function () {
             let request = moxios.requests.mostRecent();
             request.respondWith({
                 status: 200,
                 response: {
                     isValid: true,
-                    user
+                    expenses
                 }
             });
 
         });
         const expectedActions = [
             {
-                type: userActionTypes.USER_ADD_REQUEST
+                type: expenseActionTypes.EXPENSE_ADD_REQUEST
             },
             {
-                type: userActionTypes.USER_ADD_SUCCESS,
-                user
+                type: expenseActionTypes.EXPENSE_ADD_SUCCESS
             }
         ];
-        return store.dispatch(UserActions.addUser(data, history)).then(() => {
+        return store.dispatch(ExpenseActions.addExpense(data, history)).then(() => {
             const actualActions = store.getActions();
             expect(actualActions).toEqual(expectedActions)
         })
 
     })
-    it('should not Able to add User', function () {
+    it('should not Able to add Expense', function () {
         moxios.wait(function () {
             let request = moxios.requests.mostRecent();
             request.respondWith({
                 status: 200,
-                response: {isValid: false,msg:"Unable To Add User"}
+                response: {isValid: false, msg: "Unable To Add Expense"}
             });
         })
         const expectedActions = [
             {
-                type: userActionTypes.USER_ADD_REQUEST,
+                type: expenseActionTypes.EXPENSE_ADD_REQUEST,
             },
             {
-                type: userActionTypes.USER_ADD_FAIL,msg:"Unable To Add User"
+                type: expenseActionTypes.EXPENSE_ADD_FAIL, msg: "Unable To Add Expense"
             }
         ]
-        return store.dispatch(UserActions.addUser()).then(() => {
+        return store.dispatch(ExpenseActions.addExpense()).then(() => {
             const actualActions = store.getActions();
             expect(expectedActions).toEqual(actualActions);
         })
     });
-    it('should Able to Edit User Correctly', function () {
+
+    it('should Able to Edit Expense Correctly', function () {
+        let updateData = new Array();
+        updateData['date']='11 Feb 2021';
 
         moxios.wait(function () {
             let request = moxios.requests.mostRecent();
@@ -143,92 +143,96 @@ describe("Test Users Actions Functionality", () => {
                 status: 200,
                 response: {
                     isValid: true,
-                    user
+                    expense
                 }
             });
         });
         const expectedActions = [
             {
-                type: userActionTypes.USER_UPDATE_REQUEST
+                type: expenseActionTypes.EXPENSE_UPDATE_REQUEST
             },
             {
-                type: userActionTypes.USER_UPDATE_SUCCESS,
-                user
+                type: expenseActionTypes.EXPENSE_UPDATE_SUCCESS,
+                expense
 
             }
         ]
-        return store.dispatch(UserActions.updateUser()).then(() => {
+        return store.dispatch(ExpenseActions.updateExpense(1,updateData)).then(() => {
             const actualActions = store.getActions();
             expect(expectedActions).toEqual(actualActions)
         })
     });
-    it('should not able to Update user', function () {
+    it('should not able to Update expense', function () {
         moxios.wait(function () {
             let request = moxios.requests.mostRecent();
             request.respondWith({
                 status: 200,
                 response: {
                     isValid: false,
-                    msg:"Update Failed"
+                    msg: "Update Failed"
                 }
             })
         })
         const expectedActions = [
             {
-                type: userActionTypes.USER_UPDATE_REQUEST
+                type: expenseActionTypes.EXPENSE_UPDATE_REQUEST
             },
             {
-                type:userActionTypes.USER_UPDATE_FAIL,
-                msg:"Update Failed"
+                type: expenseActionTypes.EXPENSE_UPDATE_FAIL,
+                msg: "Update Failed"
             }
         ]
-        return store.dispatch(UserActions.updateUser()).then(()=>{
+        return store.dispatch(ExpenseActions.updateExpense()).then(() => {
             const actualActions = store.getActions();
             expect(expectedActions).toEqual(actualActions);
         })
 
     });
-    it('should able to delete user', function () {
+    it('should able to delete expense', function () {
         moxios.wait(function () {
             let request = moxios.requests.mostRecent();
             request.respondWith({
-                status:200,
-                response:{
-                    isValid:true
+                status: 200,
+                response: {
+                    isValid: true
                 }
             });
         });
         const expectedActions = [
-            {type:userActionTypes.USER_DELETE_REQUEST},
-            {type:userActionTypes.USER_DELETE_SUCCESS}
+            {
+                type: expenseActionTypes.EXPENSE_DELETE_REQUEST
+            },
+            {
+                type: expenseActionTypes.EXPENSE_DELETE_SUCCESS
+            }
         ];
-        return store.dispatch(UserActions.deleteUser()).then(()=>{
+        return store.dispatch(ExpenseActions.deleteExpense()).then(() => {
             const actualActions = store.getActions();
             expect(expectedActions).toEqual(actualActions);
         })
     });
-    it('should not  delete user', function () {
+    it('should not  delete expense', function () {
 
         moxios.wait(function () {
             let request = moxios.requests.mostRecent();
             request.respondWith({
-                status:200,
-                response:{
-                    isValid:false,
-                    msg:"Deleted"
+                status: 200,
+                response: {
+                    isValid: false,
+                    msg: "Not Deleted"
                 }
             });
         })
         const expectedActions = [
             {
-                type:userActionTypes.USER_DELETE_REQUEST
+                type: expenseActionTypes.EXPENSE_DELETE_REQUEST
             },
             {
-                type:userActionTypes.USER_DELETE_FAIL,
-                msg:"Deleted"
+                type: expenseActionTypes.EXPENSE_DELETE_FAIL,
+                msg: "Not Deleted"
             }
         ];
-        return store.dispatch(UserActions.deleteUser()).then(()=>{
+        return store.dispatch(ExpenseActions.deleteExpense()).then(() => {
             const actualActions = store.getActions();
             expect(expectedActions).toEqual(actualActions);
         })

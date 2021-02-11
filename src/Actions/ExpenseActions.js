@@ -86,7 +86,7 @@ export const listExpenses = () => {
 
     return (disptach) => {
         disptach(fetchExpense())
-        axios.post(url + 'api/get/expenses')
+        return axios.post(url + 'api/get/expenses')
             .then(response => {
                 // console.log(response)
                 if (response.data.isValid) {
@@ -102,14 +102,16 @@ export const listExpenses = () => {
     }
 
 }
-export const addExpense = (data, history) => {
+export const addExpense = (data = [], history) => {
 
     return (dispatch) => {
         // console.log("here")
-        data['date'] = data['date'].toDateString()
+        if(data['date']!==undefined){
+            data['date'] = new Date(data['date']).toDateString()
+        }
 
         dispatch(addExpenseRequest())
-        axios.post(url + 'api/add/expense', qs.stringify(data))
+        return axios.post(url + 'api/add/expense', qs.stringify(data))
             .then(response => {
                 if (response.data.isValid) {
                     dispatch(addExpenseSuccess(response.data.expense))
@@ -129,14 +131,16 @@ export const addExpense = (data, history) => {
 
     }
 }
-export const updateExpense = (expenseId , data, history) => {
+export const updateExpense = (expenseId , data = [], history) => {
 
     return (dispatch) => {
         dispatch(updateExpenseRequest())
         data['expense_id']=expenseId;
-        data['date'] = data['date'].toDateString();
+        if(data['date']!==undefined){
+            data['date'] = new Date(data['date']).toDateString()
+        };
         // console.log(data)
-        axios.post(url + 'api/update/expense', qs.stringify(data))
+        return axios.post(url + 'api/update/expense', qs.stringify(data))
             .then(response => {
                 if (response.data.isValid) {
                     dispatch(updateExpenseSuccess(response.data.expense))
@@ -161,7 +165,7 @@ export const deleteExpense = (expenseId) => {
     return (dispatch) => {
         dispatch(deleteExpenseRequest())
         const data ={expense_id:expenseId}
-        axios.post(url + 'api/delete/expense', qs.stringify(data))
+        return axios.post(url + 'api/delete/expense', qs.stringify(data))
             .then(response => {
                 // console.log(response)
                 if (response.data.isValid) {
