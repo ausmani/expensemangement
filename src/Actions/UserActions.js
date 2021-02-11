@@ -126,9 +126,10 @@ export const addUser = (data, history) => {
 
     }
 }
-export const updateUser = (userId , data, history) => {
+export const updateUser = (userId , data = [], history) => {
 
     return (dispatch) => {
+
         dispatch(updateUserRequest())
         data['user_id']=userId;
         return axios.post(url + 'api/update/user', qs.stringify(data))
